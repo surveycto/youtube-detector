@@ -40,23 +40,36 @@ if (!labelOrLnl) {
   }
 }
 
-function onYouTubeIframeAPIReady() {
+var videoId = getPluginParameter('video')
+
+var timePlayed = 0
+var timeStart
+
+function onYouTubeIframeAPIReady () {
+  console.log('Loaded!')
   player = new YT.Player('player', {
     height: '390',
     width: '640',
-    videoId: 'M7lc1UVf-VE',
+    videoId: videoId,
     playerVars: {
       'playsinline': 1
     },
     events: {
-      'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
     }
   })
 }
 
-function onPlayerStateChange(event) {
-  console.log(event)
+function onPlayerStateChange (event) {
+  var eventData = event.data
+  if (eventData == YT.PlayerState.PLAYING) {
+    timeStart = Date.now()
+    setMetaData('played')
+  } else if (timeStart != null) {
+    timePlayed += Date.now() - timeStart
+    timeStart = null
+    setMetaData(timePlayed)
+  }
 }
 
 // Prepare the current webview, making adjustments for any appearance options
