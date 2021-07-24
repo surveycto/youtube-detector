@@ -1,0 +1,9 @@
+{
+	"name" : "YouTube detector",
+	"author" : "Dobility",
+	"version": "1.0.0",
+	"supportedFieldTypes": ["select_one", "select_multiple"],
+	"hideDefaultRequiredMessage": false,
+	"hideDefaultConstraintMessage": false,
+	"externalJs": ["player_api.js"]
+}
