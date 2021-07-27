@@ -15,6 +15,13 @@ var likertContainer = document.querySelector('#likert-container') // likert
 var choiceLabelContainer = document.querySelector('#choice-labels')
 var listNoLabelContainer = document.querySelector('#list-nolabel')
 
+var platform
+if (document.body.className.indexOf('web-collect') >= 0) {
+  platform = 'web'
+} else {
+  platform = 'mobile' // Currently, iOS or Android does not matter, but will add the distinction later if needed
+}
+
 var labelOrLnl
 
 if (appearance.indexOf('label') === -1) {
@@ -138,10 +145,22 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
 setInterval(continuous, 1)
 
 function onYouTubeIframeAPIReady () {
-  console.log('Loaded!')
+  var windowWidth
+  if (platform === 'web') {
+    windowWidth = window.innerWidth
+  } else {
+    windowWidth = window.screen.width
+  }
+
+  var shrinker = Math.ceil(1920 / windowWidth)
+  var playerHeight = 1170 / shrinker
+  var playerWidth = 1920 / shrinker
+
   player = new YT.Player('player', {
-    height: '390',
-    width: '640',
+    height: String(playerHeight),
+    width: String(playerWidth),
+    // height: 390,
+    // width: 640,
     videoId: videoId,
     playerVars: {
       playsinline: 1
