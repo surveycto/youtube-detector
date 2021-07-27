@@ -164,6 +164,7 @@ function onPlayerStateChange (event) {
   } else if (timeStart != null) {
     playing = false
     timePlayed = savedTime + (Date.now() - timeStart)
+    savedTime = timePlayed
     setMetaData(timePlayed)
   }
 }
