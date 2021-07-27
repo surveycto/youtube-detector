@@ -1,4 +1,4 @@
-/* global fieldProperties, setAnswer, goToNextField, setMetaData, YT */
+/* global fieldProperties, setAnswer, goToNextField, getMetaData, setMetaData, getPluginParameter, YT */
 
 var choices = fieldProperties.CHOICES
 var appearance = fieldProperties.APPEARANCE
@@ -14,8 +14,6 @@ var selectDropDownContainer = document.querySelector('#select-dropdown-container
 var likertContainer = document.querySelector('#likert-container') // likert
 var choiceLabelContainer = document.querySelector('#choice-labels')
 var listNoLabelContainer = document.querySelector('#list-nolabel')
-
-var player
 
 var labelOrLnl
 
@@ -40,36 +38,25 @@ if (!labelOrLnl) {
   }
 }
 
-var videoId = getPluginParameter('video')
-
-var timePlayed = 0
+var player
+var timePlayed
 var timeStart
+var savedTime
+var playing = false // Whether or not the video is currently playing
+var playedSession = false // Whether or not the video has been played at all since the field was opened
 
-function onYouTubeIframeAPIReady () {
-  console.log('Loaded!')
-  player = new YT.Player('player', {
-    height: '390',
-    width: '640',
-    videoId: videoId,
-    playerVars: {
-      'playsinline': 1
-    },
-    events: {
-      'onStateChange': onPlayerStateChange
-    }
-  })
+var metadata = getMetaData()
+if (metadata == null) {
+  savedTime = 0
+} else {
+  savedTime = parseInt(metadata)
 }
-
-function onPlayerStateChange (event) {
-  var eventData = event.data
-  if (eventData == YT.PlayerState.PLAYING) {
-    timeStart = Date.now()
-    setMetaData('played')
-  } else if (timeStart != null) {
-    timePlayed += Date.now() - timeStart
-    timeStart = null
-    setMetaData(timePlayed)
-  }
+var videoId = getPluginParameter('video')
+var restartTime = getPluginParameter('restart')
+if (restartTime === 1) {
+  restartTime = true
+} else {
+  restartTime = false
 }
 
 // Prepare the current webview, making adjustments for any appearance options
@@ -148,6 +135,46 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
   }
 }
 
+setInterval(continuous, 1)
+
+function onYouTubeIframeAPIReady () {
+  console.log('Loaded!')
+  player = new YT.Player('player', {
+    height: '390',
+    width: '640',
+    videoId: videoId,
+    playerVars: {
+      playsinline: 1
+    },
+    events: {
+      onStateChange: onPlayerStateChange
+    }
+  })
+}
+
+function onPlayerStateChange (event) {
+  var eventData = event.data
+  if (eventData === YT.PlayerState.PLAYING) {
+    timeStart = Date.now()
+    if (!playedSession && restartTime) {
+      playedSession = true
+      savedTime = 0
+    }
+    playing = true
+  } else if (timeStart != null) {
+    playing = false
+    timePlayed = savedTime + (Date.now() - timeStart)
+    setMetaData(timePlayed)
+  }
+}
+
+function continuous () {
+  if (playing) {
+    timePlayed = savedTime + (Date.now() - timeStart)
+    setMetaData(timePlayed)
+  }
+}
+
 function clearAnswer () {
   // minimal appearance
   if (appearance.indexOf('minimal') !== -1) {
@@ -165,11 +192,6 @@ function clearAnswer () {
     }
   }
   setAnswer('')
-}
-
-function buildMetaData () {
-  var allMetaData = Object.keys(clickTracker).map(url => url + ' ' + clickTracker[url]).join('|')
-  setMetaData(allMetaData)
 }
 
 // Removed the containers that are not to be used
