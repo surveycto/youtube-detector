@@ -18,7 +18,7 @@ This field plug-in can detect how long a YouTube video has been playing for.
 
 * Display a YouTube video.
 * Track how long the YouTube video is played for.
-* Track if video completed.
+* Track if video completed or not.
 * Auto-fit video based on field area and screen size.
 * Optionally, reset the time tracking if the enumerator returns to the field and plays the video again.
 
@@ -34,7 +34,7 @@ Because the video is coming from YouTube, this field plug-in requires an interne
 
 The field value will be the selected choice.
 
-The metadata will store two pieces of data in a space-seprated list:
+The metadata will store two pieces of data in a space-separated list:
 
 1. The time in milliseconds the video was playing for.
 2. A `1` if the video played until the end, and `0` otherwise.
