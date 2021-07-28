@@ -51,12 +51,20 @@ var timeStart
 var savedTime
 var playing = false // Whether or not the video is currently playing
 var playedSession = false // Whether or not the video has been played at all since the field was opened
+var videoEnded
 
 var metadata = getMetaData()
 if (metadata == null) {
   savedTime = 0
+  videoEnded = false
 } else {
-  savedTime = parseInt(metadata)
+  var mdSplit = metadata.split(' ')
+  savedTime = parseInt(mdSplit[0])
+  if (mdSplit === '1') {
+    videoEnded = true
+  } else {
+    videoEnded = false
+  }
 }
 var videoId = getPluginParameter('video')
 var resetTime = getPluginParameter('reset')
@@ -180,18 +188,20 @@ function onPlayerStateChange (event) {
       savedTime = 0
     }
     playing = true
+  } else if (eventData === YT.PlayerState.ENDED) {
+    videoEnded = true
   } else if (timeStart != null) {
     playing = false
     timePlayed = savedTime + (Date.now() - timeStart)
     savedTime = timePlayed
-    setMetaData(timePlayed)
+    setMetaData(String(timePlayed) + ' ' + (videoEnded ? '1' : '0'))
   }
 }
 
 function continuous () {
   if (playing) {
     timePlayed = savedTime + (Date.now() - timeStart)
-    setMetaData(timePlayed)
+    setMetaData(String(timePlayed) + ' ' + (videoEnded ? '1' : '0'))
   }
 }
 
