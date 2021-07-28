@@ -57,6 +57,7 @@ var metadata = getMetaData()
 if (metadata == null) {
   savedTime = 0
   videoEnded = false
+  setMetaData('0|0')
 } else {
   var mdSplit = metadata.split(' ')
   savedTime = parseInt(mdSplit[0])
@@ -186,6 +187,7 @@ function onPlayerStateChange (event) {
     if (!playedSession && resetTime) {
       playedSession = true
       savedTime = 0
+      videoEnded = false
     }
     playing = true
   } else if (eventData === YT.PlayerState.ENDED) {
