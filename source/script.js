@@ -59,11 +59,11 @@ if (metadata == null) {
   savedTime = parseInt(metadata)
 }
 var videoId = getPluginParameter('video')
-var restartTime = getPluginParameter('restart')
-if (restartTime === 1) {
-  restartTime = true
+var resetTime = getPluginParameter('reset')
+if (resetTime === 1) {
+  resetTime = true
 } else {
-  restartTime = false
+  resetTime = false
 }
 
 // Prepare the current webview, making adjustments for any appearance options
@@ -175,7 +175,7 @@ function onPlayerStateChange (event) {
   var eventData = event.data
   if (eventData === YT.PlayerState.PLAYING) {
     timeStart = Date.now()
-    if (!playedSession && restartTime) {
+    if (!playedSession && resetTime) {
       playedSession = true
       savedTime = 0
     }
