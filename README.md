@@ -20,7 +20,9 @@ This field plug-in can detect how long a YouTube video has been playing for.
 * Track how long the YouTube video is played for.
 * Track if video completed or not.
 * Auto-fit video based on field area and screen size.
-* Optionally, reset the time tracking if the enumerator returns to the field and plays the video again.
+* Display "Loading..." at the top until the video loads.
+* Optional: Reset the time tracking if the enumerator returns to the field and plays the video again.
+* Optional: Autoplay YouTube video.
 
 ### Requirements
 
