@@ -197,6 +197,22 @@ function onYouTubeIframeAPIReady () { // The API activates this function when it
         if (autoplay) {
           player.playVideo()
         }
+      },
+      onError: function (e) {
+        var errorData = e.data
+        var errorText
+        if (errorData === 2) {
+          errorText = 'Error: Invalid video ID. Please check the "video" parameter of the field plug-in, and make sure it is a valid video ID. A video ID should be 11 characters long.'
+        } else if (errorData === 5) {
+          errorText = 'Error: Sorry, but the video cannot be played here. Make sure you have the latest version of Web View.'
+        } else if (errorData === 100) {
+          errorText = 'Error: Requested video not found.'
+        } else if ((errorData === 101) || (errorData === 150)) {
+          errorText = 'Error: Sorry, but the owner of this video does not allow it to be played in embedded players.'
+        }
+        loadingContainer.style.color = '#a8000e'
+        loadingContainer.style.display = ''
+        loadingContainer.innerHTML = errorText
       }
     }
   })
