@@ -77,6 +77,13 @@ if (resetTime === 1) {
   resetTime = false
 }
 
+var autoplay = getPluginParameter('autoplay')
+if (autoplay === 1) {
+  autoplay = true
+} else {
+  autoplay = false
+}
+
 // Prepare the current webview, making adjustments for any appearance options
 if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { // minimal appearance
   removeContainer('minimal')
@@ -180,6 +187,9 @@ function onYouTubeIframeAPIReady () {
       onStateChange: onPlayerStateChange,
       onReady: function () {
         loadingContainer.style.display = 'none'
+        if (autoplay) {
+          player.playVideo()
+        }
       }
     }
   })
