@@ -72,7 +72,7 @@ This field plug-in allows you to customize where the video will go in the field 
 
     <div id="player"></div>
 
-Simply add that to the location in the field label where you would like the video displayed, and the video will load there.
+Simply add that to the location in the field label where you would like the video displayed, and the video will load there. Check out the [sample form](https://github.com/surveycto/detect-clicked-link/raw/master/extras/sample-form/Other%20choice%20sample%20form.xlsx) for an example.
 
 ## Default SurveyCTO feature support
 

@@ -17,6 +17,12 @@ var likertContainer = document.querySelector('#likert-container') // likert
 var choiceLabelContainer = document.querySelector('#choice-labels')
 var listNoLabelContainer = document.querySelector('#list-nolabel')
 
+var playerContainer = document.querySelector('#player')
+
+if (playerContainer == null) {
+  loadingContainer.innerHTML = 'Error: No element with id "player". Please see the <a href="https://github.com/surveycto/youtube-detector#important-adding-the-video" target="_blank">documentation</a> to learn how to add the video element.'
+}
+
 var platform // Used later to determine the width of the device, since different in SurveyCTO Collect
 if (document.body.className.indexOf('web-collect') >= 0) {
   platform = 'web'
