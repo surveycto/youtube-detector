@@ -17,7 +17,7 @@ var likertContainer = document.querySelector('#likert-container') // likert
 var choiceLabelContainer = document.querySelector('#choice-labels')
 var listNoLabelContainer = document.querySelector('#list-nolabel')
 
-var platform
+var platform // Used later to determine the width of the device, since different in SurveyCTO Collect
 if (document.body.className.indexOf('web-collect') >= 0) {
   platform = 'web'
 } else {
@@ -47,10 +47,10 @@ if (!labelOrLnl) {
   }
 }
 
-var player
-var timePlayed
-var timeStart
-var savedTime
+var player // The YouTube player object
+var timePlayed // The amount of time the video has been played so far. Will be stored in the metadata
+var timeStart // The epoch time the video was played. Used to calculate the time passed if the video ends or is paused
+var savedTime // The time the video has been played so far, not counting the current play session (e.g. amount of time video was played before the last time the video was paused)
 var playing = false // Whether or not the video is currently playing
 var playedSession = false // Whether or not the video has been played at all since the field was opened
 var videoEnded
@@ -59,25 +59,25 @@ var metadata = getMetaData()
 if (metadata == null) {
   savedTime = 0
   videoEnded = false
-  setMetaData('0|0')
+  setMetaData('0|0') // Start at no time, and not ended
 } else {
   var mdSplit = metadata.split(' ')
-  savedTime = parseInt(mdSplit[0])
-  if (mdSplit === '1') {
+  savedTime = parseInt(mdSplit[0]) // Retreive time from last time
+  if (mdSplit === '1') { // Retrieve from last time whether video ended
     videoEnded = true
   } else {
     videoEnded = false
   }
 }
-var videoId = getPluginParameter('video')
-var resetTime = getPluginParameter('reset')
+var videoId = getPluginParameter('video') // YouTube ID of the video
+var resetTime = getPluginParameter('reset') // Whether time should reset after returning to field and restarting
 if (resetTime === 1) {
   resetTime = true
 } else {
   resetTime = false
 }
 
-var autoplay = getPluginParameter('autoplay')
+var autoplay = getPluginParameter('autoplay') // Whether video should play as soon as it loads
 if (autoplay === 1) {
   autoplay = true
 } else {
@@ -160,9 +160,9 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
   }
 }
 
-setInterval(continuous, 1)
+setInterval(continuous, 1) // To continously update metadata, in case enumerator leaves while the video is playing
 
-function onYouTubeIframeAPIReady () {
+function onYouTubeIframeAPIReady () { // The API activates this function when it is ready to load the video
   var windowWidth
   if (platform === 'web') {
     windowWidth = window.innerWidth
@@ -170,6 +170,7 @@ function onYouTubeIframeAPIReady () {
     windowWidth = window.screen.width
   }
 
+  // Using the width of the window, determines how much to shrink the video by, rounding down to fit the screen. Takes default height and width, and divides them by the same number
   var shrinker = Math.ceil(1920 / windowWidth)
   var playerHeight = 1170 / shrinker
   var playerWidth = 1920 / shrinker
@@ -185,7 +186,7 @@ function onYouTubeIframeAPIReady () {
     },
     events: {
       onStateChange: onPlayerStateChange,
-      onReady: function () {
+      onReady: function () { // When video is done loading, hides the "Loading..." div, and plays video if "autoplay" is true.
         loadingContainer.style.display = 'none'
         if (autoplay) {
           player.playVideo()
@@ -195,10 +196,11 @@ function onYouTubeIframeAPIReady () {
   })
 }
 
+// This function is called by the "player" object whenever the video is played, paused, or has some other state change
 function onPlayerStateChange (event) {
   var eventData = event.data
   console.log(eventData)
-  if (eventData === YT.PlayerState.PLAYING) {
+  if (eventData === YT.PlayerState.PLAYING) { // If playing, start keeping track of the time passed
     timeStart = Date.now()
     if (!playedSession && resetTime) {
       playedSession = true
@@ -206,17 +208,18 @@ function onPlayerStateChange (event) {
       videoEnded = false
     }
     playing = true
-  } else if (playing) {
+  } else if (playing) { // Any state other than playing is not playing, so takes the time passed so far, adds it to the previously passed time, and updates the metadata
     playing = false
     timePlayed = savedTime + (Date.now() - timeStart)
     savedTime = timePlayed
-    if (eventData === YT.PlayerState.ENDED) {
+    if (eventData === YT.PlayerState.ENDED) { // IMPORTANT: This determines the second part of the metadata, whether the video has ended
       videoEnded = true
     }
     setMetaData(String(timePlayed) + ' ' + (videoEnded ? '1' : '0'))
   }
 }
 
+// While the video is playing, constantly update the metadata, in case the enumerator leaves in the middle of the video
 function continuous () {
   if (playing) {
     timePlayed = savedTime + (Date.now() - timeStart)
