@@ -190,12 +190,13 @@ function onPlayerStateChange (event) {
       videoEnded = false
     }
     playing = true
-  } else if (eventData === YT.PlayerState.ENDED) {
-    videoEnded = true
-  } else if (timeStart != null) {
+  } else if (playing) {
     playing = false
     timePlayed = savedTime + (Date.now() - timeStart)
     savedTime = timePlayed
+    if (eventData === YT.PlayerState.ENDED) {
+      videoEnded = true
+    }
     setMetaData(String(timePlayed) + ' ' + (videoEnded ? '1' : '0'))
   }
 }
