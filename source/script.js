@@ -5,6 +5,8 @@ var appearance = fieldProperties.APPEARANCE
 var fieldType = fieldProperties.FIELDTYPE
 var numChoices = choices.length
 
+var loadingContainer = document.querySelector('#loading')
+
 var labelContainer = document.querySelector('#label')
 var hintContainer = document.querySelector('#hint')
 
@@ -175,13 +177,17 @@ function onYouTubeIframeAPIReady () {
       playsinline: 1
     },
     events: {
-      onStateChange: onPlayerStateChange
+      onStateChange: onPlayerStateChange,
+      onReady: function () {
+        loadingContainer.style.display = 'none'
+      }
     }
   })
 }
 
 function onPlayerStateChange (event) {
   var eventData = event.data
+  console.log(eventData)
   if (eventData === YT.PlayerState.PLAYING) {
     timeStart = Date.now()
     if (!playedSession && resetTime) {
