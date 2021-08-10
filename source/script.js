@@ -55,7 +55,6 @@ if (!labelOrLnl) {
 
 var player // The YouTube player object
 var timePlayed // The amount of time the video has been played so far. Will be stored in the metadata
-var timeStart // The epoch time the video was played. Used to calculate the time passed if the video ends or is paused
 var savedTime // The time the video has been played so far, not counting the current play session (e.g. amount of time video was played before the last time the video was paused)
 var playing = false // Whether or not the video is currently playing
 var playedSession = false // Whether or not the video has been played at all since the field was opened
@@ -223,8 +222,7 @@ function onPlayerStateChange (event) {
   var eventData = event.data
   console.log(eventData)
   if (eventData === YT.PlayerState.PLAYING) { // If playing, start keeping track of the time passed
-    timeStart = Date.now()
-    if (!playedSession && resetTime) {
+    if (!playedSession && resetTime) { // Reset if playing again and should reset time
       playedSession = true
       savedTime = 0
       videoEnded = false
@@ -232,8 +230,7 @@ function onPlayerStateChange (event) {
     playing = true
   } else if (playing) { // Any state other than playing is not playing, so takes the time passed so far, adds it to the previously passed time, and updates the metadata
     playing = false
-    timePlayed = savedTime + (Date.now() - timeStart)
-    savedTime = timePlayed
+    timePlayed = savedTime + player.getCurrentTime()
     if (eventData === YT.PlayerState.ENDED) { // IMPORTANT: This determines the second part of the metadata, whether the video has ended
       videoEnded = true
     }
@@ -244,7 +241,7 @@ function onPlayerStateChange (event) {
 // While the video is playing, constantly update the metadata, in case the enumerator leaves in the middle of the video
 function continuous () {
   if (playing) {
-    timePlayed = savedTime + (Date.now() - timeStart)
+    timePlayed = savedTime + player.getCurrentTime()
     setMetaData(String(timePlayed) + ' ' + (videoEnded ? '1' : '0'))
   }
 }
@@ -266,6 +263,7 @@ function clearAnswer () {
     }
   }
   setAnswer('')
+  setMetaData('0|0')
 }
 
 // Removed the containers that are not to be used
