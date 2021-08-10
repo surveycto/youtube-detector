@@ -38,12 +38,12 @@ The field value will be the selected choice.
 
 The metadata will store two pieces of data in a space-separated list:
 
-1. The time in milliseconds the video was playing for.
+1. The time in seconds the video was playing for.
 2. A `1` if the video played until the end, and `0` otherwise.
 
-For example, if the video was played for 5,000 milliseconds (5 seconds), and did not play until the end, then the metadata will be:
+For example, if the video was played for 5.5 seconds, and did not play until the end, then the metadata will be:
 
-    5000 0
+    5.5 0
 
 You can use the plug-in-metadata() function to retrieve the metadata (it is a good idea to use it in a [*calculate_here* field](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03zb.field-types-calculate.html) so it updates when needed), and the selected-at() function to retrieve each individual piece of data. Check out our documentation on [using expressions](https://docs.surveycto.com/02-designing-forms/01-core-concepts/09.expressions.html) to learn more.
 
@@ -66,7 +66,7 @@ This field plug-in tracks how much time the video was playing, not how much of t
 |:--|:--|
 |`video` (required)|The ID of the YouTube video. When you go to a YouTube video in a web browser, if you look at the URL, you'll notice it starts `https://www.youtube.com/watch?v=`, followed by a seemingly random series of numbers, letters, and hyphens. That series of characters is the ID of the YouTube video. For example, for [this video](https://www.youtube.com/watch?v=VmGM-jlAqIw), the URL is `https://www.youtube.com/watch?v=VmGM-jlAqIw`, so the YouTube video ID is "VmGM-jlAqIw", and you can use that for the `video` parameter value.|
 |`autoplay` (optional)|If this parameter has a value of `1`, then the video will play as soon as it loads. Otherwise, the video will not play until the enumerator clicks on it.|
-|`reset` (optional)|<p>If this parameter is not defined, then if the respondent watches the video for 5,000 milliseconds, moves away from the field, returns to the video, and continues watching the video for 10,000 milliseconds, then their time spent watching the video will be tracked as 15,000 milliseconds, If this parameter has a value of `1`, then the field plug-in will drop the previous 5,000 milliseconds, and only track the video as being watched for 10,000 milliseconds. Because a the video restarts when you leave the field and come back, this can be used to make sure respondents watch the entire video this time. It will also reset whether the video ended or not.</p><p>Because this will make the respondent lose their watch progress if they start the video over, if you do use this parameter, it is a good idea to have a warning to the respondent</p><p>If the respondent leaves the field, returns, but does not play the video again, then their time will not reset.</p>|
+|`reset` (optional)|<p>If this parameter is not defined, then if the respondent watches the video for 5 seconds, moves away from the field, returns to the video, and continues watching the video for 10 seconds, then their time spent watching the video will be tracked as 15 seconds, If this parameter has a value of `1`, then the field plug-in will drop the previous 5 seconds, and only track the video as being watched for 10 seconds. Because a the video restarts when you leave the field and come back, this can be used to make sure respondents watch the entire video this time. It will also reset whether the video ended or not.</p><p>Because this will make the respondent lose their watch progress if they start the video over, if you do use this parameter, it is a good idea to have a warning to the respondent</p><p>If the respondent leaves the field, returns, but does not play the video again, then their time will not reset.</p>|
 
 ### Important: Adding the video
 
