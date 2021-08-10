@@ -69,7 +69,7 @@ if (metadata == null) {
 } else {
   var mdSplit = metadata.split(' ')
   savedTime = parseInt(mdSplit[0]) // Retreive time from last time
-  if (mdSplit === '1') { // Retrieve from last time whether video ended
+  if (mdSplit[1] === '1') { // Retrieve from last time whether video ended
     videoEnded = true
   } else {
     videoEnded = false
