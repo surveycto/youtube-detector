@@ -5,8 +5,6 @@ var appearance = fieldProperties.APPEARANCE
 var fieldType = fieldProperties.FIELDTYPE
 var numChoices = choices.length
 
-var loadingContainer = document.querySelector('#loading')
-
 var labelContainer = document.querySelector('#label')
 var hintContainer = document.querySelector('#hint')
 
@@ -19,8 +17,10 @@ var listNoLabelContainer = document.querySelector('#list-nolabel')
 
 var playerContainer = document.querySelector('#player')
 
+var loadingNode = document.querySelector('.loader')
+
 if (playerContainer == null) {
-  loadingContainer.innerHTML = 'Error: No element with id "player". Please see the <a href="https://github.com/surveycto/youtube-detector#important-adding-the-video" target="_blank">documentation</a> to learn how to add the video element.'
+  playerContainer.innerHTML = 'Error: No element with id "player". Please see the <a href="https://github.com/surveycto/youtube-detector#important-adding-the-video" target="_blank">documentation</a> to learn how to add the video element.'
 }
 
 var platform // Used later to determine the width of the device, since different in SurveyCTO Collect
@@ -193,7 +193,7 @@ function onYouTubeIframeAPIReady () { // The API activates this function when it
     events: {
       onStateChange: onPlayerStateChange,
       onReady: function () { // When video is done loading, hides the "Loading..." div, and plays video if "autoplay" is true.
-        loadingContainer.style.display = 'none'
+        loadingNode.style.display = 'none'
         if (autoplay) {
           player.playVideo()
         }
@@ -210,9 +210,9 @@ function onYouTubeIframeAPIReady () { // The API activates this function when it
         } else if ((errorData === 101) || (errorData === 150)) {
           errorText = 'Error: Sorry, but the owner of this video does not allow it to be played in embedded players.'
         }
-        loadingContainer.style.color = '#a8000e'
-        loadingContainer.style.display = ''
-        loadingContainer.innerHTML = errorText
+        playerContainer.style.color = '#a8000e'
+        playerContainer.style.display = ''
+        playerContainer.innerHTML = errorText
       }
     }
   })
