@@ -23,6 +23,8 @@ if (playerContainer == null) {
   playerContainer.innerHTML = 'Error: No element with id "player". Please see the <a href="https://github.com/surveycto/youtube-detector#important-adding-the-video" target="_blank">documentation</a> to learn how to add the video element.'
 }
 
+var currentAnswer // Stores the currently selected value, but will not set until minSeconds has been met
+
 var platform // Used later to determine the width of the device, since different in SurveyCTO Collect
 if (document.body.className.indexOf('web-collect') >= 0) {
   platform = 'web'
@@ -87,6 +89,11 @@ if (autoplay === 1) {
   autoplay = true
 } else {
   autoplay = false
+}
+
+var minSeconds = getPluginParameter('min_seconds') // Minimum number of seconds the video must be played for
+if ((minSeconds == null) || (isNaN(minSeconds))) {
+  minSeconds = 0
 }
 
 // Prepare the current webview, making adjustments for any appearance options
@@ -220,7 +227,6 @@ function onYouTubeIframeAPIReady () { // The API activates this function when it
 // This function is called by the "player" object whenever the video is played, paused, or has some other state change
 function onPlayerStateChange (event) {
   var eventData = event.data
-  console.log(eventData)
   if (eventData === YT.PlayerState.PLAYING) { // If playing, start keeping track of the time passed
     if (!playedSession && resetTime) { // Reset if playing again and should reset time
       playedSession = true
@@ -243,6 +249,9 @@ function continuous () {
   if (playing) {
     timePlayed = savedTime + player.getCurrentTime()
     setMetaData(String(timePlayed) + ' ' + (videoEnded ? '1' : '0'))
+    if ((minSeconds !== 0) && (timePlayed >= minSeconds)) { // Only set if the minimum number of seconds has passed. To save resources, only does this continously if "minSeconds" is not 0.
+      setAnswer(currentAnswer)
+    }
   }
 }
 
@@ -292,11 +301,7 @@ function removeContainer (keep) {
 // Save the user's response (update the current answer)
 function change () {
   if (fieldType === 'select_one') {
-    setAnswer(this.value)
-    // If the appearance is 'quick', then also progress to the next field
-    if (appearance.indexOf('quick') !== -1) {
-      goToNextField()
-    }
+    currentAnswer = this.value
   } else {
     var selected = []
     for (var c = 0; c < numChoices; c++) {
@@ -304,7 +309,15 @@ function change () {
         selected.push(choices[c].CHOICE_VALUE)
       }
     }
-    setAnswer(selected.join(' '))
+    currentAnswer = selected.join(' ')
+  }
+
+  if (timePlayed >= minSeconds) { // Only actually set the answer if the video has been played for the minimum number of seconds (default: 0)
+    setAnswer(currentAnswer)
+    // If the appearance is 'quick', then also progress to the next field
+    if (appearance.indexOf('quick') !== -1) {
+      goToNextField()
+    }
   }
 }
 
