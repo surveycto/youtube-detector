@@ -57,7 +57,7 @@ This field plug-in tracks how much time the video was playing, not how much of t
 *To use this plug-in as is:*
 
 1. Download the [sample form](https://github.com/surveycto/youtube-detector/raw/main/extras/sample-form/YouTube%20detector%20sample%20form.xlsx). You can use the sample form as-is, or adjust the parameters to change the behavior ([see below](#parameters)).
-1. Download the [youtube-detector.fieldplugin.zip](https://github.com/surveycto/youtube-detector/raw/main/youtube-detector.fieldplugin.zip) file from this repo, and attach it to the sample form on your SurveyCTO server.
+1. Download the [youtube-detector.fieldplugin.zip](https://github.com/surveycto/youtube-detector/raw/main/youtube-detector.fieldplugin.zip) file from this repo.
 1. Upload the sample form to your server, with the field plug-in attached.
 
 ### Parameters
