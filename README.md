@@ -10,7 +10,7 @@
 
 This field plug-in can detect how long a YouTube video has been playing for.
 
-[![Download now](extras/readme-images/beta-release-download.jpeg)](https://github.com/surveycto/detect-clicked-link/raw/master/detect-clicked-link.fieldplugin.zip)
+[![Download now](extras/readme-images/beta-release-download.jpeg)](https://github.com/surveycto/youtube-detector/raw/main/youtube-detector.fieldplugin.zip)
 
 *This plug-in is currently under beta. If you you find a problem with the field plug-in, please email support@surveycto.com, or submit an issue to this GitHub repo.*
 
@@ -56,8 +56,8 @@ This field plug-in tracks how much time the video was playing, not how much of t
 
 *To use this plug-in as is:*
 
-1. Download the [sample form](https://github.com/surveycto/detect-clicked-link/raw/master/extras/sample-form/Other%20choice%20sample%20form.xlsx) from this repo, as well as the [media files ZIP file](https://github.com/surveycto/detect-clicked-link/raw/master/extras/sample-form/media.zip). You can use the sample form as-is, or adjust the parameters to change the behavior ([see below](#parameters)).
-1. Download the [detect-clicked-link.fieldplugin.zip](https://github.com/surveycto/detect-clicked-link/raw/master/detect-clicked-link.fieldplugin.zip) file from this repo, and attach it to the sample form on your SurveyCTO server.
+1. Download the [sample form](https://github.com/surveycto/youtube-detector/raw/main/extras/sample-form/YouTube%20detector%20sample%20form.xlsx). You can use the sample form as-is, or adjust the parameters to change the behavior ([see below](#parameters)).
+1. Download the [youtube-detector.fieldplugin.zip](https://github.com/surveycto/youtube-detector/raw/main/youtube-detector.fieldplugin.zip) file from this repo, and attach it to the sample form on your SurveyCTO server.
 1. Upload the sample form to your server, with the field plug-in attached.
 
 ### Parameters
@@ -75,7 +75,7 @@ This field plug-in allows you to customize where the video will go in the field 
 
     <div id="player"></div>
 
-Simply add that to the location in the field label where you would like the video displayed, and the video will load there. Check out the [sample form](https://github.com/surveycto/detect-clicked-link/raw/master/extras/sample-form/Other%20choice%20sample%20form.xlsx) for an example.
+Simply add that to the location in the field label where you would like the video displayed, and the video will load there. Check out the [sample form](https://github.com/surveycto/youtube-detector/raw/main/extras/sample-form/YouTube%20detector%20sample%20form.xlsx) for an example.
 
 ## Default SurveyCTO feature support
 
