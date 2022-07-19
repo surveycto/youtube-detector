@@ -77,6 +77,8 @@ if (metadata == null) {
     videoEnded = false
   }
 }
+timePlayed = savedTime
+
 var videoId = getPluginParameter('video') // YouTube ID of the video
 var resetTime = getPluginParameter('reset') // Whether time should reset after returning to field and restarting
 if (resetTime === 1) {
