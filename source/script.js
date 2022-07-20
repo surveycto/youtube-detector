@@ -83,10 +83,6 @@ var videoId = getPluginParameter('video') // YouTube ID of the video
 
 if (videoId.indexOf('youtube.com/watch?') !== -1) {
   videoId = videoId.substring(videoId.indexOf('v=') + 2)
-
-  if (videoId.indexOf('&') !== -1) {
-    videoId = videoId.substring(0, videoId.indexOf('&'))
-  }
 } else if (videoId.indexOf('youtu.be/') !== -1) {
   videoId = videoId.substring(videoId.indexOf('youtu.be/') + 9)
 
@@ -95,6 +91,9 @@ if (videoId.indexOf('youtube.com/watch?') !== -1) {
   }
 }
 
+if (videoId.indexOf('&') !== -1) {
+  videoId = videoId.substring(0, videoId.indexOf('&'))
+}
 
 var resetTime = getPluginParameter('reset') // Whether time should reset after returning to field and restarting
 if (resetTime === 1) {
