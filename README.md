@@ -10,9 +10,7 @@
 
 This field plug-in can detect how long a YouTube video has been playing for.
 
-[![Download now](extras/readme-images/beta-release-download.jpeg)](https://github.com/surveycto/youtube-detector/raw/main/youtube-detector.fieldplugin.zip)
-
-*This plug-in is currently under beta. If you you find a problem with the field plug-in, please email support@surveycto.com, or submit an issue to this GitHub repo.*
+[![Download](extras/readme-images/download-button.png)](https://github.com/surveycto/youtube-detector/raw/main/youtube-detector.fieldplugin.zip)
 
 ## Features
 
