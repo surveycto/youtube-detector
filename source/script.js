@@ -20,7 +20,8 @@ var playerContainer = document.querySelector('#player')
 var loadingNode = document.querySelector('.loader')
 
 if (playerContainer == null) {
-  playerContainer.innerHTML = 'Error: No element with id "player". Please see the <a href="https://github.com/surveycto/youtube-detector#important-adding-the-video" target="_blank">documentation</a> to learn how to add the video element.'
+  loadingNode.style.display = 'none'
+  document.querySelector('.error').style.display = ''
 }
 
 var currentAnswer // Stores the currently selected value, but will not set until minSeconds has been met
@@ -76,7 +77,24 @@ if (metadata == null) {
     videoEnded = false
   }
 }
+timePlayed = savedTime
+
 var videoId = getPluginParameter('video') // YouTube ID of the video
+
+if (videoId.indexOf('youtube.com/watch?') !== -1) {
+  videoId = videoId.substring(videoId.indexOf('v=') + 2)
+} else if (videoId.indexOf('youtu.be/') !== -1) {
+  videoId = videoId.substring(videoId.indexOf('youtu.be/') + 9)
+
+  if (videoId.indexOf('?') !== -1) {
+    videoId = videoId.substring(0, videoId.indexOf('?'))
+  }
+}
+
+if (videoId.indexOf('&') !== -1) {
+  videoId = videoId.substring(0, videoId.indexOf('&'))
+}
+
 var resetTime = getPluginParameter('reset') // Whether time should reset after returning to field and restarting
 if (resetTime === 1) {
   resetTime = true

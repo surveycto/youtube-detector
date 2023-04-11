@@ -10,9 +10,7 @@
 
 This field plug-in can detect how long a YouTube video has been playing for.
 
-[![Download now](extras/readme-images/beta-release-download.jpeg)](https://github.com/surveycto/youtube-detector/raw/main/youtube-detector.fieldplugin.zip)
-
-*This plug-in is currently under beta. If you you find a problem with the field plug-in, please email support@surveycto.com, or submit an issue to this GitHub repo.*
+[![Download](extras/readme-images/download-button.png)](https://github.com/surveycto/youtube-detector/raw/main/youtube-detector.fieldplugin.zip)
 
 ## Features
 
@@ -64,7 +62,7 @@ This field plug-in tracks how much time the video was playing, not how much of t
 
 |Name|Description|
 |:--|:--|
-|`video` (required)|The ID of the YouTube video. When you go to a YouTube video in a web browser, if you look at the URL, you'll notice it starts `https://www.youtube.com/watch?v=`, followed by a seemingly random series of numbers, letters, and hyphens. That series of characters is the ID of the YouTube video. For example, for [this video](https://www.youtube.com/watch?v=VmGM-jlAqIw), the URL is `https://www.youtube.com/watch?v=VmGM-jlAqIw`, so the YouTube video ID is "VmGM-jlAqIw", and you can use that for the `video` parameter value.|
+|`video` (required)|<p>The ID of the YouTube video. When you go to a YouTube video in a web browser, if you look at the URL, you'll notice it starts `https://www.youtube.com/watch?v=`, followed by a seemingly random series of numbers, letters, and hyphens. That series of characters is the ID of the YouTube video. For example, for [this video](https://www.youtube.com/watch?v=VmGM-jlAqIw), the URL is `https://www.youtube.com/watch?v=VmGM-jlAqIw`, so the YouTube video ID is "VmGM-jlAqIw", and you can use that for the `video` parameter value.</p><p>If you accidentially use the full URL instead, the field plug-in is smart enough to extract the video ID, so don't worry if you use the full URL instead.</p>|
 |`autoplay` (optional)|If this parameter has a value of `1`, then the video will play as soon as it loads. Otherwise, the video will not play until the enumerator clicks on it.|
 |`reset` (optional)|<p>If this parameter is not defined, then if the respondent watches the video for 5 seconds, moves away from the field, returns to the video, and continues watching the video for 10 seconds, then their time spent watching the video will be tracked as 15 seconds, If this parameter has a value of `1`, then the field plug-in will drop the previous 5 seconds, and only track the video as being watched for 10 seconds. Because a the video restarts when you leave the field and come back, this can be used to make sure respondents watch the entire video this time. It will also reset whether the video ended or not.</p><p>Because this will make the respondent lose their watch progress if they start the video over, if you do use this parameter, it is a good idea to have a warning to the respondent</p><p>If the respondent leaves the field, returns, but does not play the video again, then their time will not reset.</p>|
 |`min_seconds` (optional)|Minimum number of seconds the video must be watched for before the enumerator can move on to the next field.|
